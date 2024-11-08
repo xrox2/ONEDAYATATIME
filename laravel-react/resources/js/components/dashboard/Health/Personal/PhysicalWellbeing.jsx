@@ -1,8 +1,124 @@
 import React from 'react';
-import { Heart, Brain, Zap, Coffee, Activity, Smile, Meh, Frown, AlertCircle } from 'lucide-react';
+import { Heart, Brain, Zap, Coffee, Activity, Smile, Meh, Frown, AlertCircle, Shield, Sparkles } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import EnvironmentalTimeline from './EnvironmentalTimeline';
 
+// Environmental Impact Component
+const EnvironmentalImpact = ({ data }) => {
+  // Helper function to get color based on status/level
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'High':
+      case 'Good':
+        return 'bg-green-500';
+      case 'Moderate':
+      case 'Fair':
+        return 'bg-yellow-500';
+      case 'Low':
+      case 'Needs Attention':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Impact Legend */}
+      <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-500" />
+          <span>Challenging Factors</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Shield className="w-4 h-4 text-green-500" />
+          <span>Supportive Factors</span>
+        </div>
+      </div>
+
+      {/* Challenging Factors (Stressors) */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-500" />
+          Current Challenges
+        </h4>
+        <div className="space-y-2">
+          {data.stressors.map((stressor, idx) => (
+            <div key={idx} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span>{stressor.name}</span>
+                <span className={`text-${stressor.level === 'High' ? 'red' : stressor.level === 'Moderate' ? 'yellow' : 'green'}-600`}>
+                  {stressor.level} Impact
+                </span>
+              </div>
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div 
+                  className={`h-full ${getStatusColor(stressor.level)} opacity-60 rounded-full transition-all duration-500`}
+                  style={{ width: `${stressor.level === 'High' ? '100%' : stressor.level === 'Moderate' ? '66%' : '33%'}` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Supportive Elements (Resources & Protective Factors) */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium flex items-center gap-2">
+          <Shield className="w-4 h-4 text-green-500" />
+          Support System
+        </h4>
+        <div className="space-y-2">
+          {[...data.resources, ...data.protective].map((item, idx) => (
+            <div key={idx} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span>{item.name}</span>
+                <span className={`text-${item.status === 'Good' ? 'green' : item.status === 'Fair' ? 'yellow' : 'red'}-600`}>
+                  {item.status}
+                </span>
+              </div>
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div 
+                  className={`h-full ${getStatusColor(item.status)} opacity-60 rounded-full transition-all duration-500`}
+                  style={{ width: `${item.status === 'Good' ? '100%' : item.status === 'Fair' ? '66%' : '33%'}` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Overall Balance Indicator */}
+      <div className="bg-gray-50 rounded-lg p-4">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-medium">Overall Balance</span>
+          <Sparkles className="w-4 h-4 text-blue-500" />
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500"
+              style={{ 
+                width: `${
+                  (([...data.resources, ...data.protective].filter(i => i.status === 'Good').length * 100) /
+                  ([...data.resources, ...data.protective].length + data.stressors.length))
+                }%` 
+              }}
+            />
+          </div>
+          <span className="text-sm text-gray-600">
+            {
+              [...data.resources, ...data.protective].filter(i => i.status === 'Good').length > data.stressors.filter(s => s.level === 'High').length
+                ? 'Well Balanced'
+                : 'Needs Attention'
+            }
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main PhysicalWellbeing Component
 const PhysicalWellbeing = ({ name, data = {} }) => {
   const {
     today = {
@@ -58,32 +174,6 @@ const PhysicalWellbeing = ({ name, data = {} }) => {
     if (value >= 80) return 'text-green-600';
     if (value >= 60) return 'text-yellow-600';
     return 'text-red-600';
-  };
-
-  const getStressColor = (level) => {
-    switch (level) {
-      case 'Low':
-        return 'text-green-600';
-      case 'Moderate':
-        return 'text-yellow-600';
-      case 'High':
-        return 'text-red-600';
-      default:
-        return 'text-gray-600';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'Good':
-        return <Smile className="w-4 h-4 text-green-500" />;
-      case 'Fair':
-        return <Meh className="w-4 h-4 text-yellow-500" />;
-      case 'Needs Attention':
-        return <Frown className="w-4 h-4 text-red-500" />;
-      default:
-        return null;
-    }
   };
 
   const metrics = [
@@ -183,69 +273,12 @@ const PhysicalWellbeing = ({ name, data = {} }) => {
 
           {/* Environmental Factors Section */}
           <div className="border-t pt-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-2">
-                <AlertCircle className="w-4 h-4 text-blue-500" />
-                <h4 className="font-medium">Environmental Factors</h4>
-              </div>
-              <div className="flex items-center space-x-4 text-sm">
-                <span className="flex items-center">
-                  <span className="w-3 h-3 bg-red-500 rounded-full opacity-60 mr-1"></span>
-                  Stressors
-                </span>
-                <span className="flex items-center">
-                  <span className="w-3 h-3 bg-green-500 rounded-full opacity-60 mr-1"></span>
-                  Resources
-                </span>
-                <span className="flex items-center">
-                  <span className="w-3 h-3 bg-blue-500 rounded-full opacity-60 mr-1"></span>
-                  Protective
-                </span>
-              </div>
+            <div className="flex items-center space-x-2 mb-4">
+              <AlertCircle className="w-4 h-4 text-blue-500" />
+              <h4 className="font-medium">Environmental Factors</h4>
             </div>
             
-            {/* Environmental Timeline */}
-            <EnvironmentalTimeline data={data.environmental} />
-
-            {/* Summary Lists */}
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              {/* Stressors */}
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Active Stressors:</p>
-                {data.environmental.stressors.map((stressor, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-sm">
-                    <span>{stressor.name}</span>
-                    <span className={getStressColor(stressor.level)}>{stressor.level}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Resources */}
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Available Resources:</p>
-                {data.environmental.resources.map((resource, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-sm">
-                    <span>{resource.name}</span>
-                    <span className="flex items-center">
-                      {getStatusIcon(resource.status)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Protective Factors */}
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Protective Factors:</p>
-                {data.environmental.protective.map((factor, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-sm">
-                    <span>{factor.name}</span>
-                    <span className="flex items-center">
-                      {getStatusIcon(factor.status)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <EnvironmentalImpact data={data.environmental} />
           </div>
         </div>
       </CardContent>
