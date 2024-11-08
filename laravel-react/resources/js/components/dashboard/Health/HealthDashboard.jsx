@@ -4,7 +4,7 @@ import {
   Shield, AlertCircle, TreePine,
   Smile, Frown, Meh
 } from 'lucide-react';
-import PhysicalWellbeing from './PhysicalWellbeing';
+import PhysicalWellbeing from './Personal/PhysicalWellbeing';
 
 const HealthDashboard = ({ activeSection, setActiveSection }) => {
   const [hoveredElement, setHoveredElement] = useState(null);

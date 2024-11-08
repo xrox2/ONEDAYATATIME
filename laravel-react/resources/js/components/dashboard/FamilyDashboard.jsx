@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import HealthDashboard from './Health/HealthDashboard';
 import Calendar from './Calendar/Calendar';
-import PhysicalWellbeing from './Health/PhysicalWellbeing';
+import PhysicalWellbeing from './Health/Personal/PhysicalWellbeing';
 import RelationshipTimeline from "./Health/Relationship/RelationshipTimeline";
 import {
   Heart,
@@ -191,8 +191,8 @@ const FamilyDashboard = () => {
   <div className="max-w-7xl mx-auto space-y-8">
     {/* Top Row - Three Column Layout */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {/* Roxi's Physical Wellbeing */}
-      <PhysicalWellbeing
+{/* Roxi's Physical Wellbeing */}
+<PhysicalWellbeing
   name="Roxi"
   data={{
     today: {
@@ -208,6 +208,20 @@ const FamilyDashboard = () => {
       hydration: 82,
       exercise: 45,
       mood: 'good'
+    },
+    environmental: {
+      stressors: [
+        { name: 'Work Deadlines', level: 'High', impact: 'Career & Time Management' },
+        { name: 'Home Office Setup', level: 'Moderate', impact: 'Environmental' }
+      ],
+      resources: [
+        { name: 'Support System', status: 'Good', type: 'Social' },
+        { name: 'Workspace', status: 'Fair', type: 'Environmental' }
+      ],
+      protective: [
+        { name: 'Exercise Routine', status: 'Good', category: 'Physical' },
+        { name: 'Mindfulness', status: 'Fair', category: 'Mental' }
+      ]
     }
   }}
 />
@@ -248,8 +262,8 @@ const FamilyDashboard = () => {
   </CardContent>
 </Card>
 
-      {/* Mark's Physical Wellbeing */}
-      <PhysicalWellbeing
+ {/* Mark's Physical Wellbeing */}
+<PhysicalWellbeing
   name="Mark"
   data={{
     today: {
@@ -265,23 +279,24 @@ const FamilyDashboard = () => {
       hydration: 70,
       exercise: 40,
       mood: 'good'
+    },
+    environmental: {
+      stressors: [
+        { name: 'Project Deadline', level: 'High', impact: 'Work' },
+        { name: 'Sleep Schedule', level: 'Moderate', impact: 'Health' }
+      ],
+      resources: [
+        { name: 'Work Equipment', status: 'Good', type: 'Tools' },
+        { name: 'Exercise Space', status: 'Good', type: 'Environmental' }
+      ],
+      protective: [
+        { name: 'Social Activities', status: 'Good', category: 'Social' },
+        { name: 'Sleep Schedule', status: 'Fair', category: 'Physical' }
+      ]
     }
   }}
 />
     </div>
-
-    {/* Health Dashboard */}
-    <Card>
-      <CardHeader>
-        <CardTitle>Family Health Environment</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <HealthDashboard 
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        />
-      </CardContent>
-    </Card>
 
     {/* Growth & Goals */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
