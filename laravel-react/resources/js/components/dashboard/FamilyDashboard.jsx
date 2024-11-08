@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import HealthDashboard from './Health/HealthDashboard';
 import Calendar from './Calendar/Calendar';
+import PhysicalWellbeing from './Health/PhysicalWellbeing';
+import RelationshipTimeline from "./Health/Relationship/RelationshipTimeline";
 import {
   Heart,
   MessageSquare,
@@ -185,147 +187,155 @@ const FamilyDashboard = () => {
           </div>
         )}
 
-        {activeTab === 'health' && (
-          <div className="max-w-7xl mx-auto space-y-8">
-            {/* Core Health Indicators */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Physical Health */}
-              <Card className="hover:shadow-lg transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-lg">Physical Wellbeing</CardTitle>
-                      <p className="text-sm text-gray-500">Core health metrics</p>
-                    </div>
-                    <Activity className="h-6 w-6 text-green-500" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="p-3 bg-gray-50 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Sleep</p>
-                      <p className="text-lg font-bold text-green-600">7.5h</p>
-                      <p className="text-xs text-gray-500">avg/night</p>
-                    </div>
-                    <div className="p-3 bg-gray-50 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Exercise</p>
-                      <p className="text-lg font-bold text-blue-600">5/7</p>
-                      <p className="text-xs text-gray-500">days active</p>
-                    </div>
-                    <div className="p-3 bg-gray-50 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Nutrition</p>
-                      <p className="text-lg font-bold text-purple-600">85%</p>
-                      <p className="text-xs text-gray-500">balanced</p>
-                    </div>
-                  </div>
-                  <div className="mt-4 text-sm text-gray-600">
-                    Priority: Improve sleep schedule
-                  </div>
-                </CardContent>
-              </Card>
+{activeTab === 'health' && (
+  <div className="max-w-7xl mx-auto space-y-8">
+    {/* Top Row - Three Column Layout */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Roxi's Physical Wellbeing */}
+      <PhysicalWellbeing
+  name="Roxi"
+  data={{
+    today: {
+      rested: 85,
+      energy: 85,
+      hydration: 80,
+      exercise: 60,
+      mood: 'good'
+    },
+    weekAvg: {
+      rested: 80,
+      energy: 75,
+      hydration: 82,
+      exercise: 45,
+      mood: 'good'
+    }
+  }}
+/>
 
-              {/* Relationship Health */}
-              <Card onClick={() => handleCardClick('relationship')} className="hover:shadow-lg transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-lg">Relationship Health</CardTitle>
-                      <p className="text-sm text-gray-500">Connection & communication</p>
-                    </div>
-                    <Heart className="h-6 w-6 text-red-500" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-3 bg-gray-50 rounded-lg">
-                      <p className="text-sm font-medium">Quality Time</p>
-                      <div className="flex items-center justify-between mt-1">
-                        <p className="text-lg font-bold text-blue-600">6.5h</p>
-                        <p className="text-xs text-gray-500">daily</p>
-                      </div>
-                    </div>
-                    <div className="p-3 bg-gray-50 rounded-lg">
-                      <p className="text-sm font-medium">Check-ins</p>
-                      <div className="flex items-center justify-between mt-1">
-                        <p className="text-lg font-bold text-green-600">89%</p>
-                        <p className="text-xs text-gray-500">completed</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 text-sm text-gray-600 flex justify-between">
-                    <span>Next: Evening check-in</span>
-                    <span className="text-blue-600 cursor-pointer">View exercises →</span>
-                  </div>
-                </CardContent>
-              </Card>
+{/* Relationship Health */}
+<Card onClick={() => handleCardClick('relationship')} className="hover:shadow-lg transition-all">
+  <CardHeader>
+    <div className="flex items-center justify-between">
+      <div>
+        <CardTitle className="text-lg">Relationship Health</CardTitle>
+        <p className="text-sm text-gray-500">Connection & communication</p>
+      </div>
+      <Heart className="h-6 w-6 text-red-500" />
+    </div>
+  </CardHeader>
+  <CardContent>
+    <RelationshipTimeline />
+    <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="p-3 bg-gray-50 rounded-lg">
+        <p className="text-sm font-medium">Quality Time</p>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-lg font-bold text-blue-600">6.5h</p>
+          <p className="text-xs text-gray-500">daily</p>
+        </div>
+      </div>
+      <div className="p-3 bg-gray-50 rounded-lg">
+        <p className="text-sm font-medium">Check-ins</p>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-lg font-bold text-green-600">89%</p>
+          <p className="text-xs text-gray-500">completed</p>
+        </div>
+      </div>
+    </div>
+    <div className="mt-4 text-sm text-gray-600 flex justify-between">
+      <span>Next: Evening check-in</span>
+      <span className="text-blue-600 cursor-pointer">View exercises →</span>
+    </div>
+  </CardContent>
+</Card>
+
+      {/* Mark's Physical Wellbeing */}
+      <PhysicalWellbeing
+  name="Mark"
+  data={{
+    today: {
+      rested: 75,
+      energy: 70,
+      hydration: 65,
+      exercise: 45,
+      mood: 'neutral'
+    },
+    weekAvg: {
+      rested: 72,
+      energy: 68,
+      hydration: 70,
+      exercise: 40,
+      mood: 'good'
+    }
+  }}
+/>
+    </div>
+
+    {/* Health Dashboard */}
+    <Card>
+      <CardHeader>
+        <CardTitle>Family Health Environment</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <HealthDashboard 
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+        />
+      </CardContent>
+    </Card>
+
+    {/* Growth & Goals */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Card className="hover:shadow-lg transition-all">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">Active Goals</CardTitle>
+            <Target className="h-6 w-6 text-purple-500" />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-sm font-medium">Morning Routine</p>
+                <span className="text-sm text-gray-500">6/7 days</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded h-2">
+                <div className="bg-purple-500 h-2 rounded" style={{width: '85%'}}></div>
+              </div>
             </div>
-
-            {/* Health Dashboard */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Family Health Environment</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <HealthDashboard 
-                  activeSection={activeSection}
-                  setActiveSection={setActiveSection}
-                />
-              </CardContent>
-            </Card>
-
-            {/* Growth & Goals */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="hover:shadow-lg transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">Active Goals</CardTitle>
-                    <Target className="h-6 w-6 text-purple-500" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <p className="text-sm font-medium">Morning Routine</p>
-                        <span className="text-sm text-gray-500">6/7 days</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded h-2">
-                        <div className="bg-purple-500 h-2 rounded" style={{width: '85%'}}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <p className="text-sm font-medium">Family Dinner</p>
-                        <span className="text-sm text-gray-500">5/7 days</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded h-2">
-                        <div className="bg-blue-500 h-2 rounded" style={{width: '71%'}}></div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">Weekly Activities</CardTitle>
-                    <CalendarIcon className="h-6 w-6 text-orange-500" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-gray-50 rounded">
-                      <p className="font-medium">Upcoming</p>
-                      <p className="text-sm text-gray-600 mt-1">Family walk (Thursday)</p>
-                      <p className="text-sm text-gray-600 mt-1">Cooking together (Saturday)</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-sm font-medium">Family Dinner</p>
+                <span className="text-sm text-gray-500">5/7 days</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded h-2">
+                <div className="bg-blue-500 h-2 rounded" style={{width: '71%'}}></div>
+              </div>
             </div>
           </div>
-        )}
+        </CardContent>
+      </Card>
+
+      <Card className="hover:shadow-lg transition-all">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">Weekly Activities</CardTitle>
+            <CalendarIcon className="h-6 w-6 text-orange-500" />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="p-3 bg-gray-50 rounded">
+              <p className="font-medium">Upcoming</p>
+              <p className="text-sm text-gray-600 mt-1">Family walk (Thursday)</p>
+              <p className="text-sm text-gray-600 mt-1">Cooking together (Saturday)</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+)}
 
         {activeTab === 'finance' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

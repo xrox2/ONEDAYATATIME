@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Heart,
-  Brain,
-  Users,
-  Flower2,
-  Activity,
-  Shield,
-  AlertCircle,
-  Sun,
-  Moon,
-  Home,
-  TreePine,
-  MessageCircle,
-  Zap,
-  Coffee,
-  Heart as HeartIcon,
-  Smile,
-  Frown,
-  Meh,
+  Heart, Brain, Users, Activity,
+  Shield, AlertCircle, TreePine,
+  Smile, Frown, Meh
 } from 'lucide-react';
+import PhysicalWellbeing from './PhysicalWellbeing';
 
 const HealthDashboard = ({ activeSection, setActiveSection }) => {
   const [hoveredElement, setHoveredElement] = useState(null);
@@ -89,17 +75,29 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
             strokeWidth="2"
           />
           
-          {/* Interactive Elements */}
+          {/* Roxi's Physical Wellbeing */}
           <g 
             className="cursor-pointer transition-transform hover:scale-105"
-            onClick={() => setActiveSection('physical')}
-            onMouseEnter={() => setHoveredElement('physical')}
+            onClick={() => setActiveSection('physical-roxi')}
+            onMouseEnter={() => setHoveredElement('physical-roxi')}
             onMouseLeave={() => setHoveredElement(null)}
           >
-            <circle cx="400" cy="250" r="35" fill="#dcfce7" stroke="#22c55e" strokeWidth="2"/>
-            <Activity x="382" y="242" className="w-8 h-8 text-green-600" />
+            <circle cx="350" cy="250" r="35" fill="#dcfce7" stroke="#22c55e" strokeWidth="2"/>
+            <Activity x="332" y="242" className="w-8 h-8 text-green-600" />
           </g>
 
+          {/* Mark's Physical Wellbeing */}
+          <g 
+            className="cursor-pointer transition-transform hover:scale-105"
+            onClick={() => setActiveSection('physical-mark')}
+            onMouseEnter={() => setHoveredElement('physical-mark')}
+            onMouseLeave={() => setHoveredElement(null)}
+          >
+            <circle cx="450" cy="250" r="35" fill="#dcfce7" stroke="#22c55e" strokeWidth="2"/>
+            <Activity x="432" y="242" className="w-8 h-8 text-green-600" />
+          </g>
+
+          {/* Mental Health */}
           <g 
             className="cursor-pointer transition-transform hover:scale-105"
             onClick={() => setActiveSection('mental')}
@@ -110,6 +108,7 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
             <Brain x="282" y="342" className="w-8 h-8 text-purple-600" />
           </g>
 
+          {/* Social Connections */}
           <g 
             className="cursor-pointer transition-transform hover:scale-105"
             onClick={() => setActiveSection('social')}
@@ -120,6 +119,7 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
             <Users x="482" y="342" className="w-8 h-8 text-blue-600" />
           </g>
 
+          {/* Environmental */}
           <g 
             className="cursor-pointer transition-transform hover:scale-105"
             onClick={() => setActiveSection('environmental')}
@@ -136,11 +136,12 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
           <div 
             className="absolute bg-white p-2 rounded shadow-lg text-sm"
             style={{
-              top: hoveredElement === 'physical' ? '30%' :
+              top: hoveredElement.includes('physical') ? '30%' :
                    hoveredElement === 'mental' ? '50%' :
                    hoveredElement === 'social' ? '50%' :
                    '70%',
-              left: hoveredElement === 'physical' ? '50%' :
+              left: hoveredElement === 'physical-roxi' ? '40%' :
+                    hoveredElement === 'physical-mark' ? '60%' :
                     hoveredElement === 'mental' ? '30%' :
                     hoveredElement === 'social' ? '70%' :
                     '50%',
@@ -149,7 +150,8 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
             }}
           >
             <div className="font-medium">
-              {hoveredElement === 'physical' && 'Physical Health & Activity'}
+              {hoveredElement === 'physical-roxi' && "Roxi's Physical Wellbeing"}
+              {hoveredElement === 'physical-mark' && "Mark's Physical Wellbeing"}
               {hoveredElement === 'mental' && 'Mental & Emotional Wellbeing'}
               {hoveredElement === 'social' && 'Social Connections & Support'}
               {hoveredElement === 'environmental' && 'Environmental Factors'}
@@ -204,20 +206,60 @@ const HealthDashboard = ({ activeSection, setActiveSection }) => {
         </div>
       </div>
 
-      {/* Section Details (optionally shown when a section is clicked) */}
+      {/* Section Details */}
       {activeSection && (
         <div className="mt-4 p-4 bg-white rounded-lg shadow-sm border">
           <h3 className="font-medium mb-3">
-            {activeSection === 'physical' && 'Physical Health Details'}
+            {activeSection === 'physical-roxi' && "Roxi's Physical Wellbeing"}
+            {activeSection === 'physical-mark' && "Mark's Physical Wellbeing"}
             {activeSection === 'mental' && 'Mental Wellbeing Details'}
             {activeSection === 'social' && 'Social Connection Details'}
             {activeSection === 'environmental' && 'Environmental Factors Details'}
           </h3>
-          {/* Add more detailed content for each section as needed */}
-        </div>
-      )}
-    </div>
-  );
+          
+          {(activeSection === 'physical-roxi' || activeSection === 'physical-mark') ? (
+            <div className="grid md:grid-cols-2 gap-6">
+            {activeSection === 'physical-roxi' && (
+              <PhysicalWellbeing
+                name="Roxi"
+                data={{
+                  sleep: 7.5,
+                  energy: 85,
+                  hydration: 80,
+                  nutrition: 75,
+                  exercise: 60,
+                  pain: null
+                }}
+              />
+            )}
+            {activeSection === 'physical-mark' && (
+              <PhysicalWellbeing
+                name="Mark"
+                data={{
+                  sleep: 6.5,
+                  energy: 70,
+                  hydration: 65,
+                  nutrition: 80,
+                  exercise: 45,
+                  pain: null
+                }}
+              />
+            )}
+          </div>
+        ) : (
+          // Other sections content
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <p className="text-gray-600">
+              {activeSection === 'mental' && 'Mental health tracking and resources...'}
+              {activeSection === 'social' && 'Social connections and relationship metrics...'}
+              {activeSection === 'environmental' && 'Environmental factors and conditions...'}
+            </p>
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+);
 };
 
 export default HealthDashboard;
